@@ -1,0 +1,58 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Load the dataset (hypothetical data)
+data = pd.read_csv("heart.csv")
+
+# Data Preprocessing
+# Assuming 'target' is the column we want to predict
+X = data.drop('target', axis=1)
+y = data['target']
+
+# Splitting the dataset into the Training set and Test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Model Training
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Model Evaluation
+predictions = model.predict(X_test)
+print(classification_report(y_test, predictions))
+print(confusion_matrix(y_test, predictions))
+
+# Visualization
+# Scatter plot
+sns.scatterplot(x='age', y='chol', data=data, hue='target')
+plt.title('Scatter plot of Age vs Cholesterol')
+plt.xlabel('Age')
+plt.ylabel('Cholesterol')
+plt.show()
+
+# Line plot
+sns.lineplot(x='age', y='thalach', data=data, hue='target')
+plt.title('Line plot of Age vs Max Heart Rate Achieved')
+plt.xlabel('Age')
+plt.ylabel('Max Heart Rate Achieved')
+plt.show()
+
+# Distribution plots
+sns.histplot(data['trestbps'], kde=True)
+plt.title('Distribution of Resting Blood Pressure')
+plt.xlabel('Resting Blood Pressure (mm Hg)')
+plt.ylabel('Frequency')
+plt.show()
+
+sns.histplot(data['oldpeak'], kde=True)
+plt.title('Distribution of ST Depression Induced by Exercise Relative to Rest')
+plt.xlabel('ST Depression')
+plt.ylabel('Frequency')
+plt.show()
+
+# Conclusion
+print("In conclusion, we trained a logistic regression model to predict the target variable based on the given features. The model achieved an accuracy of X%. From the visualizations, we observe...")
